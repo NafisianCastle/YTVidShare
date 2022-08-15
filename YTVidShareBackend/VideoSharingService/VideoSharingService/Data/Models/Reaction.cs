@@ -6,8 +6,8 @@ namespace VideoSharingService.Data.Models
     public class Reaction
     {
         public int ReactionID { get; set; }
-        public int Like { get; set; }
-        public int Dislike { get; set; }
+        public int Likes { get; set; }
+        public int Dislikes { get; set; }
         public DateTime ReactingTime { get; set; }
 
         [ForeignKey(nameof(Video))]

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VideoSharingService.Data;
 
 namespace VideoSharingService.Migrations
 {
     [DbContext(typeof(VidShareDbContext))]
-    partial class VidShareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220815181201_Modifiedreaction")]
+    partial class Modifiedreaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,10 +28,10 @@ namespace VideoSharingService.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Dislikes")
+                    b.Property<int>("Dislike")
                         .HasColumnType("int");
 
-                    b.Property<int>("Likes")
+                    b.Property<int>("Like")
                         .HasColumnType("int");
 
                     b.Property<int>("ReactedUserID")
@@ -75,7 +77,7 @@ namespace VideoSharingService.Migrations
                         new
                         {
                             UserID = 1,
-                            CreatedAt = new DateTime(2022, 8, 16, 0, 13, 26, 517, DateTimeKind.Local).AddTicks(4940),
+                            CreatedAt = new DateTime(2022, 8, 16, 0, 12, 1, 163, DateTimeKind.Local).AddTicks(6516),
                             Email = "admin@vidshare.com",
                             Password = "admin@1234",
                             Username = "Admin"
