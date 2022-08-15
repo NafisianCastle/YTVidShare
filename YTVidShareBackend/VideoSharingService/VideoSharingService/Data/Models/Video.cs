@@ -9,12 +9,10 @@ namespace VideoSharingService.Data.Models
         public int VideoID { get; set; }
         public string Url { get; set; }
         public string Title { get; set; }
-        public DateTime dateTime { get; set; }
-
+        public DateTime UploadDate { get; set; }
+        public int ViewCount { get; set; }
         [ForeignKey(nameof(User))]
-        public User User { get; set; }
         public int UserID { get; set; }
-
-        public ICollection<Reaction> Reactions { get; set; }
+        public virtual User User { get; set; }
     }
 }
