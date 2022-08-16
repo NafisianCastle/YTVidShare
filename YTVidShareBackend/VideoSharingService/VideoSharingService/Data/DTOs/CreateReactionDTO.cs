@@ -5,9 +5,7 @@ namespace VideoSharingService.Data.DTOs
 {
     public class CreateReactionDTO
     {
-        public int Likes { get; set; }
-
-        public int Dislikes { get; set; }
+        public bool Value { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
