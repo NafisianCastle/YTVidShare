@@ -2,16 +2,18 @@
 using System;
 using VideoSharingService.Data.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace VideoSharingService.Data.DTOs
 {
-    public class VideoDTO
+    public class VideoDTO:CreateVideoDTO
     {
         public int VideoID { get; set; }
-        public string Url { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Title is required")]
-        public string Title { get; set; }
-        public DateTime UploadDate { get; set; }
+        
         public int ViewCount { get; set; }
+
+        public IList<ReactionDTO> Reactions { get; set; }
+
+        public  UserDTO User { get; set; }
     }
 }

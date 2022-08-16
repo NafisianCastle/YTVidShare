@@ -5,16 +5,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VideoSharingService.Data.DTOs
 {
-    public class ReactionDTO
+    public class ReactionDTO :CreateReactionDTO
     {
         public int ReactionID { get; set; }
-        public int Likes { get; set; }
-        public int Dislikes { get; set; }
-        [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime ReactingTime { get; set; }
-        public int ReactedUserID { get; set; }
+
+        public  VideoDTO Video { get; set; }
     }
 }
  

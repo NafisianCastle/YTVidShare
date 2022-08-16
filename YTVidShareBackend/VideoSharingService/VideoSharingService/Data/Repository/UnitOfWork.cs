@@ -11,7 +11,7 @@ namespace VideoSharingService.Data.Repository
 
         private IGenericRepository<User> _users;
         private IGenericRepository<Video> _videos;
-        private IGenericRepository<Reaction> _reactions
+        private IGenericRepository<Reaction> _reactions;
 
         public UnitOfWork(VidShareDbContext context)
         { 

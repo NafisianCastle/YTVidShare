@@ -14,5 +14,7 @@ namespace VideoSharingService.Data.Models
         [ForeignKey(nameof(User))]
         public int UserID { get; set; }
         public virtual User User { get; set; }
+
+        public virtual IList<Reaction> Reactions { get; set; }
     }
 }
