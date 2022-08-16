@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -12,13 +13,13 @@ namespace VideoSharingService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class VideoController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<VideoController> _logger;
         private readonly IMapper _mapper;
 
-        public UserController(IUnitOfWork unitOfWork, ILogger<UserController> logger, IMapper mapper)
+        public VideoController(IUnitOfWork unitOfWork, ILogger<VideoController> logger, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
@@ -26,33 +27,37 @@ namespace VideoSharingService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetVideos()
         {
             try
             {
-                var users = await _unitOfWork.Users.GetAll();
-                var result = _mapper.Map<IList<UserDTO>>(users);
+                var videos = await _unitOfWork.Videos.GetAll();
+                var result = _mapper.Map<IList<VideoDTO>>(videos);
                 return Ok(result);
             }
             catch (System.Exception ex)
             {
-                _logger.LogError(ex, $"Something went wrong in the {nameof(GetUsers)}");
+                _logger.LogError(ex, $"Something went wrong in the {nameof(GetVideos)}");
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetUser(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetVideo(int id)
         {
             try
             {
-                var user = await _unitOfWork.Users.Get(x => x.UserID == id, new List<string> {"Videos"});
-                var result = _mapper.Map<UserDTO>(user);
+                var video = await _unitOfWork.Videos.Get(x => x.VideoID == id, new List<string> {"Reactions"});
+                var result = _mapper.Map<VideoDTO>(video);
                 return Ok(result);
             }
             catch (System.Exception ex)
             {
-                _logger.LogError(ex, $"Something went wrong in the {nameof(GetUser)}");
+                _logger.LogError(ex, $"Something went wrong in the {nameof(GetVideo)}");
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }
