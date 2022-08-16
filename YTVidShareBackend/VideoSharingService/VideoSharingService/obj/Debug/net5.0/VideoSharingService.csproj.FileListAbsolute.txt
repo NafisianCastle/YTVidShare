@@ -69,3 +69,9 @@ D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoShar
 D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\obj\Debug\net5.0\VideoSharingService.pdb
 D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\obj\Debug\net5.0\VideoSharingService.genruntimeconfig.cache
 D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\obj\Debug\net5.0\ref\VideoSharingService.dll
+D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\AutoMapper.dll
+D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\Newtonsoft.Json.dll
+D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

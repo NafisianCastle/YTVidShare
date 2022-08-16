@@ -1,18 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using VideoSharingService.Configurations;
 using VideoSharingService.Data;
+using VideoSharingService.Data.IRepository;
+using VideoSharingService.Data.Repository;
 
 namespace VideoSharingService
 {
@@ -34,14 +30,24 @@ namespace VideoSharingService
 
             });
 
-            services.AddControllers();
+
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+
+            services.AddAutoMapper(typeof(MapperInitializer));
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VideoSharingService", Version = "v1" });
+            });
+
+            services.AddControllers().AddNewtonsoftJson(op =>
+            {
+                op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
         }
 
@@ -65,8 +71,14 @@ namespace VideoSharingService
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapControllerRoute(
+                //    name:"default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}"
+                //    );
                 endpoints.MapControllers();
             });
+
+
         }
     }
 }

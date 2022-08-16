@@ -14,12 +14,12 @@ namespace VideoSharingService.Data.Repository
         private IGenericRepository<Reaction> _reactions;
 
         public UnitOfWork(VidShareDbContext context)
-        { 
+        {
             _context = context;
 
         }
 
-        public IGenericRepository<User> Users => _users ??=  new GenericRepository<User>(_context);
+        public IGenericRepository<User> Users => _users ??= new GenericRepository<User>(_context);
 
         public IGenericRepository<Video> Videos => _videos ??= new GenericRepository<Video>(_context);
 
@@ -34,7 +34,7 @@ namespace VideoSharingService.Data.Repository
 
         public async Task Save()
         {
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

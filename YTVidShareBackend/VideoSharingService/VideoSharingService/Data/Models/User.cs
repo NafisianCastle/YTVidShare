@@ -9,8 +9,8 @@ namespace VideoSharingService.Data.Models
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public DateTime CreatedAt { get; set; } 
+        public DateTime CreatedAt { get; set; }
 
-        public IList<Video> Videos {get; set; }
+        public IList<Video> Videos { get; set; }
     }
 }

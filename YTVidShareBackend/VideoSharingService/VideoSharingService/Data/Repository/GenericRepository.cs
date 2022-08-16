@@ -16,7 +16,7 @@ namespace VideoSharingService.Data.Repository
         public GenericRepository(VidShareDbContext context)
         {
             _context = context;
-            _db = _context.Set<T>();    
+            _db = _context.Set<T>();
         }
 
         public async Task Delete(int id)
@@ -78,7 +78,7 @@ namespace VideoSharingService.Data.Repository
             await _db.AddRangeAsync(entities);
         }
 
-        public void  Update(T entity)
+        public void Update(T entity)
         {
             _db.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;

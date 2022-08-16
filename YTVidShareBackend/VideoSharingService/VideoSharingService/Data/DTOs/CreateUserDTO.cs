@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace VideoSharingService.Data.DTOs
 {
@@ -9,7 +9,7 @@ namespace VideoSharingService.Data.DTOs
         public string Email { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Username is required")]
-        [StringLength(maximumLength:20,ErrorMessage ="Username is too long")]
+        [StringLength(maximumLength: 20, ErrorMessage = "Username is too long")]
         public string Username { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password is required")]
