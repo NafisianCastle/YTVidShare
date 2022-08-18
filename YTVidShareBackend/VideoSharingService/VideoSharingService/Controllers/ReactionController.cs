@@ -9,7 +9,6 @@ using VideoSharingService.Data.DTOs;
 using VideoSharingService.Data.IRepository;
 using VideoSharingService.Data.Models;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace VideoSharingService.Controllers
 {
@@ -37,7 +36,17 @@ namespace VideoSharingService.Controllers
             {
                 var reactions = await _unitOfWork.Reactions.GetAll(x=>x.VideoID == id);
                 var result = _mapper.Map<IList<ReactionDTO>>(reactions);
-                return Ok(result);
+                var reactionList = new List<VideoDetailsDTO>();
+                var singleReaction = new VideoDetailsDTO();
+                foreach (var item in result)
+                {
+                    var username =  _unitOfWork.Users.Get(x=>x.UserID==item.ReactedUserID).Result.Username;
+                    singleReaction.ReactedUserName = username;
+                    singleReaction.ReactedUserID= item.ReactedUserID;
+                    singleReaction.Value = item.Value;
+                    reactionList.Add(singleReaction);
+                }
+                return Ok(reactionList);
             }
             catch (Exception ex)
             {
