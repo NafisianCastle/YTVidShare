@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Collections.Generic;
 using VideoSharingService.Configurations;
 using VideoSharingService.Data;
 using VideoSharingService.Data.IRepository;
@@ -32,6 +34,26 @@ namespace VideoSharingService
 
             });
 
+            services.AddMemoryCache();
+
+            services.Configure<IpRateLimitOptions>(opt =>
+            {   
+                opt.GeneralRules = new List<RateLimitRule>
+                {
+                    new RateLimitRule
+                    {
+                        Endpoint ="*",
+                        Limit=1,
+                        Period="5s"
+                    }
+                };
+            });
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+
+            services.AddHttpContextAccessor();
 
             services.AddResponseCaching();
             services.AddHttpCacheHeaders(
@@ -87,6 +109,7 @@ namespace VideoSharingService
 
             app.UseResponseCaching();
             app.UseHttpCacheHeaders();
+            app.UseIpRateLimiting();
 
             app.UseRouting();
 
