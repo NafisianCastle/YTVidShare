@@ -12,9 +12,11 @@ namespace VideoSharingService.Data.DTOs
         public string Title { get; set; }
 
         [DataType(DataType.Date)]
+        [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime UploadDate { get; set; }
 
+        [Required]
         public int UserID { get; set; }
     }
 }

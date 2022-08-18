@@ -7,7 +7,8 @@ namespace VideoSharingService.Data.DTOs
         public int VideoID { get; set; }
 
         public int ViewCount { get; set; }
-
+        public int LikeCount { get; set; }
+        public int DisLikeCount { get; set; }
         public IList<ReactionDTO> Reactions { get; set; }
 
         public UserDTO User { get; set; }

@@ -46,7 +46,7 @@ namespace VideoSharingService.Controllers
             }
         }
 
-        [HttpGet("{id:int}",Name ="GetVideo")]
+        [HttpGet("{id:int}", Name = "GetVideo")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetVideo(int id)
@@ -55,6 +55,7 @@ namespace VideoSharingService.Controllers
             {
                 var video = await _unitOfWork.Videos.Get(x => x.VideoID == id, new List<string> { "Reactions" });
                 var result = _mapper.Map<VideoDTO>(video);
+                
                 return Ok(result);
             }
             catch (Exception ex)
@@ -66,27 +67,60 @@ namespace VideoSharingService.Controllers
 
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateVideo([FromBody] CreateVideoDTO videoDTO)
         {
             if (!ModelState.IsValid)
             {
-                 _logger.LogError($"Invalid post attempt {nameof(CreateVideo)}");
+                _logger.LogError($"Invalid post attempt {nameof(CreateVideo)}");
                 return BadRequest(ModelState);
             }
             try
             {
                 var video = _mapper.Map<Video>(videoDTO);
-                await _unitOfWork.Videos.Insert(video); 
+                await _unitOfWork.Videos.Insert(video);
                 await _unitOfWork.Save();
-                
-                return CreatedAtRoute("GetVideo", new {id = video.VideoID}, video);
+
+                return CreatedAtRoute("GetVideo", new { id = video.VideoID }, video);
             }
-            catch ( Exception ex)
-            {   
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, $"Something went wrong in the {nameof(CreateVideo)}");
+                return StatusCode(500, "Internal server error. Please try again later");
+            }
+        }
+
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateVideo(int id, [FromBody] UpdateVideoDTO videoDTO)
+        {
+            if (!ModelState.IsValid || id < 1)
+            {
+                _logger.LogError($"Invalid UPDATE attempt {nameof(UpdateVideo)}");
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var video = await _unitOfWork.Videos.Get(x => x.VideoID == id);
+                if (video == null)
+                {
+                    _logger.LogError($"Invalid UPDATE attempt {nameof(UpdateVideo)}");
+                    return BadRequest(ModelState);
+
+                }
+                _mapper.Map(videoDTO, video);
+                _unitOfWork.Videos.Update(video);
+                await _unitOfWork.Save();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(UpdateVideo)}");
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }
