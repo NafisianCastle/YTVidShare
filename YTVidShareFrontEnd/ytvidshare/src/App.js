@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import SignIn from "./pages/Signin";
 import Video from "./pages/Video";
 const Container = styled.div`
   display: flex;
@@ -16,6 +17,7 @@ const Wrapper = styled.div`
 `;
 
 function App() {
+  // const { currentUser } = useSelector((state) => state.user);
   return (
     <Container>
       <Router>
@@ -28,6 +30,10 @@ function App() {
                 <Route path="video">
                   <Route path=":id" element={<Video />} />
                 </Route>
+                <Route
+                    path="signin"
+                    element={ <SignIn />}
+                  />
               </Route>
             </Routes>
           </Wrapper>
