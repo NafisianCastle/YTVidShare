@@ -83,3 +83,4 @@ D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoShar
 D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\JetBrains.Annotations.dll
 D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\X.PagedList.dll
 D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\X.PagedList.Mvc.Core.dll
+D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\Marvin.Cache.Headers.dll

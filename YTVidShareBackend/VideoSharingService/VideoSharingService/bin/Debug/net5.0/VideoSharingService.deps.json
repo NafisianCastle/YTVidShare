@@ -34,6 +34,7 @@
       "VideoSharingService/1.0.0": {
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "8.1.1",
+          "Marvin.Cache.Headers": "6.1.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "5.0.17",
           "Microsoft.AspNetCore.Authentication.OpenIdConnect": "5.0.17",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "5.0.17",
@@ -377,6 +378,17 @@
         },
         "compile": {
           "lib/netstandard2.0/JetBrains.Annotations.dll": {}
+        }
+      },
+      "Marvin.Cache.Headers/6.1.0": {
+        "runtime": {
+          "lib/net5.0/Marvin.Cache.Headers.dll": {
+            "assemblyVersion": "6.1.0.0",
+            "fileVersion": "6.1.0.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Marvin.Cache.Headers.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authentication.JwtBearer/5.0.17": {
@@ -3377,6 +3389,13 @@
       "sha512": "sha512-ASfpoFJxiRsC9Xc4TWuPM41Zb/gl64xwfMOhnOZ3RnVWGYIZchjpWQV5zshJgoc/ZxVtgjaF7b577lURj7E6ig==",
       "path": "jetbrains.annotations/2022.1.0",
       "hashPath": "jetbrains.annotations.2022.1.0.nupkg.sha512"
+    },
+    "Marvin.Cache.Headers/6.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XHUeOdMfZrtRHXsWiqRUrebBl4U2SGew8Cr7Y/tHaGfiY/fbajnq4vRt5ktlkUnMebcpfvl8RJjAglu1KxWwYQ==",
+      "path": "marvin.cache.headers/6.1.0",
+      "hashPath": "marvin.cache.headers.6.1.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/5.0.17": {
       "type": "package",

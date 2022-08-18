@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,7 @@ namespace VideoSharingService.Controllers
         }
 
         [HttpGet]
+        [HttpCacheValidation(MustRevalidate =true)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetVideos([FromQuery] RequestParams requestParams)
@@ -39,7 +41,7 @@ namespace VideoSharingService.Controllers
                 var result = _mapper.Map<IList<VideoDTO>>(videos);
                 return Ok(result);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"Something went wrong in the {nameof(GetVideos)}");
                 return StatusCode(500, "Internal server error. Please try again later");

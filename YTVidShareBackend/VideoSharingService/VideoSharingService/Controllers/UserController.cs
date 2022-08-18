@@ -30,6 +30,7 @@ namespace VideoSharingService.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ResponseCache(CacheProfileName ="120SecondsDuration")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetUsers()
         {
@@ -47,6 +48,7 @@ namespace VideoSharingService.Controllers
         }
 
         [HttpGet("{id:int}",Name ="CreateUser")]
+        [ResponseCache(CacheProfileName ="120SecondsDuration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetUser(int id)

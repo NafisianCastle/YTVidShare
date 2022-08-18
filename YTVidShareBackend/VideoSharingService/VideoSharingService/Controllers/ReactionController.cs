@@ -28,6 +28,7 @@ namespace VideoSharingService.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(CacheProfileName ="120SecondsDuration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetReactions(int id)
