@@ -15,13 +15,13 @@ namespace VideoSharingService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class ReactionController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<ReactionController> _logger;
         private readonly IMapper _mapper;
 
-        public UserController(IUnitOfWork unitOfWork, ILogger<UserController> logger, IMapper mapper)
+        public ReactionController(IUnitOfWork unitOfWork, ILogger<ReactionController> logger, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
@@ -31,35 +31,35 @@ namespace VideoSharingService.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetReactions()
         {
             try
             {
-                var users = await _unitOfWork.Users.GetAll();
-                var result = _mapper.Map<IList<UserDTO>>(users);
+                var reactions = await _unitOfWork.Reactions.GetAll();
+                var result = _mapper.Map<IList<ReactionDTO>>(reactions);
                 return Ok(result);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogError(ex, $"Something went wrong in the {nameof(GetUsers)}");
+                _logger.LogError(ex, $"Something went wrong in the {nameof(GetReactions)}");
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }
 
-        [HttpGet("{id:int}",Name ="CreateUser")]
+        [HttpGet("{id:int}",Name ="CreateReaction")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetUser(int id)
+        public async Task<IActionResult> GetReaction(int id)
         {
             try
             {
-                var user = await _unitOfWork.Users.Get(x => x.UserID == id, new List<string> {"Videos"});
-                var result = _mapper.Map<UserDTO>(user);
+                var reaction = await _unitOfWork.Reactions.Get(x => x.ReactionID == id);
+                var result = _mapper.Map<ReactionDTO>(reaction);
                 return Ok(result);
             }
             catch (System.Exception ex)
             {
-                _logger.LogError(ex, $"Something went wrong in the {nameof(GetUser)}");
+                _logger.LogError(ex, $"Something went wrong in the {nameof(GetReaction)}");
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }
@@ -68,24 +68,24 @@ namespace VideoSharingService.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO userDTO)
+        public async Task<IActionResult> CreateReaction([FromBody] CreateReactionDTO reactionDTO)
         {
             if (!ModelState.IsValid)
             {
-                 _logger.LogError($"Invalid post attempt {nameof(CreateUser)}");
+                 _logger.LogError($"Invalid post attempt {nameof(CreateReaction)}");
                 return BadRequest(ModelState);
             }
             try
             {
-                var user = _mapper.Map<User>(userDTO);
-                await _unitOfWork.Users.Insert(user); 
+                var reaction = _mapper.Map<Reaction>(reactionDTO);
+                await _unitOfWork.Reactions.Insert(reaction); 
                 await _unitOfWork.Save();
                 
-                return CreatedAtRoute("CreateUser", new {id = user.UserID}, user);
+                return Ok(reaction);
             }
             catch ( Exception ex)
             {   
-                _logger.LogError(ex, $"Something went wrong in the {nameof(CreateUser)}");
+                _logger.LogError(ex, $"Something went wrong in the {nameof(CreateReaction)}");
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }

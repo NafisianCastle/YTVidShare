@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using VideoSharingService.Data.DTOs;
 using VideoSharingService.Data.IRepository;
+using VideoSharingService.Data.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -44,20 +46,47 @@ namespace VideoSharingService.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}",Name ="GetVideo")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetVideo(int id)
         {
             try
             {
-                var video = await _unitOfWork.Videos.Get(x => x.VideoID == id, new List<string> {"Reactions"});
+                var video = await _unitOfWork.Videos.Get(x => x.VideoID == id, new List<string> { "Reactions" });
                 var result = _mapper.Map<VideoDTO>(video);
                 return Ok(result);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"Something went wrong in the {nameof(GetVideo)}");
+                return StatusCode(500, "Internal server error. Please try again later");
+            }
+        }
+
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateVideo([FromBody] CreateVideoDTO videoDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                 _logger.LogError($"Invalid post attempt {nameof(CreateVideo)}");
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var video = _mapper.Map<Video>(videoDTO);
+                await _unitOfWork.Videos.Insert(video); 
+                await _unitOfWork.Save();
+                
+                return CreatedAtRoute("GetVideo", new {id = video.VideoID}, video);
+            }
+            catch ( Exception ex)
+            {   
+                _logger.LogError(ex, $"Something went wrong in the {nameof(CreateVideo)}");
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }
