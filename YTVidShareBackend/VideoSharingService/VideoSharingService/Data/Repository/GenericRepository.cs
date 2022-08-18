@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using VideoSharingService.Data.DTOs;
 using VideoSharingService.Data.IRepository;
+using X.PagedList;
 
 namespace VideoSharingService.Data.Repository
 {
@@ -67,6 +70,23 @@ namespace VideoSharingService.Data.Repository
 
             return await query.AsNoTracking().ToListAsync();
         }
+
+        public async Task<IPagedList<T>> GetPagedList(RequestParams requestParams, List<string> includes = null)
+        {
+            IQueryable<T> query = _db;
+
+            if (includes != null)
+            {
+                foreach (var includeProperty in includes)
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+
+            return await query.AsNoTracking().ToPagedListAsync(requestParams.PageNumber, requestParams.PageSize);
+        }
+
+        
 
         public async Task Insert(T entity)
         {

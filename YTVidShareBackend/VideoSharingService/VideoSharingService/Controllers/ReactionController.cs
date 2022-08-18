@@ -36,8 +36,8 @@ namespace VideoSharingService.Controllers
             {
                 var reactions = await _unitOfWork.Reactions.GetAll(x=>x.VideoID == id);
                 var result = _mapper.Map<IList<ReactionDTO>>(reactions);
-                var reactionList = new List<VideoDetailsDTO>();
-                var singleReaction = new VideoDetailsDTO();
+                var reactionList = new List<ReactorDTO>();
+                var singleReaction = new ReactorDTO();
                 foreach (var item in result)
                 {
                     var username =  _unitOfWork.Users.Get(x=>x.UserID==item.ReactedUserID).Result.Username;
@@ -46,7 +46,13 @@ namespace VideoSharingService.Controllers
                     singleReaction.Value = item.Value;
                     reactionList.Add(singleReaction);
                 }
-                return Ok(reactionList);
+                var uploaderID = _unitOfWork.Videos.Get(x=>x.VideoID==id).Result.UserID;
+
+                var videoDetails = new VideoDetails();
+                videoDetails.ReactorDTOs = reactionList;
+                videoDetails.UploaderUserName = _unitOfWork.Users.Get(x=>x.UserID==uploaderID).Result.Username;
+
+                return Ok(videoDetails);
             }
             catch (Exception ex)
             {
@@ -54,24 +60,6 @@ namespace VideoSharingService.Controllers
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }
-
-        //[HttpGet("{id:int}", Name = "CreateReaction")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //public async Task<IActionResult> GetReaction(int id)
-        //{
-        //    try
-        //    {
-        //        var reaction = await _unitOfWork.Reactions.Get(x => x.VideoID == id);
-        //        var result = _mapper.Map<ReactionDTO>(reaction);
-        //        return Ok(result);
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-        //        _logger.LogError(ex, $"Something went wrong in the {nameof(GetReaction)}");
-        //        return StatusCode(500, "Internal server error. Please try again later");
-        //    }
-        //}
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

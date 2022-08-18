@@ -1,6 +1,6 @@
 ﻿namespace VideoSharingService.Data.DTOs
 {
-    public class VideoDetailsDTO
+    public class ReactorDTO
     {
         public int ReactedUserID { get; set; }
         public string ReactedUserName { get; set; }

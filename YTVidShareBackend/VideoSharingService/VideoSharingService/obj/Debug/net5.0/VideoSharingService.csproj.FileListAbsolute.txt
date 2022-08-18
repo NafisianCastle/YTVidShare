@@ -80,3 +80,6 @@ D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoShar
 D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\Microsoft.Extensions.Identity.Core.dll
 D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\Microsoft.Extensions.Identity.Stores.dll
+D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\JetBrains.Annotations.dll
+D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\X.PagedList.dll
+D:\Projects\VS Projects\VidShare\YTVidShareBackend\VideoSharingService\VideoSharingService\bin\Debug\net5.0\X.PagedList.Mvc.Core.dll

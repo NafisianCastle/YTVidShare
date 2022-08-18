@@ -31,11 +31,11 @@ namespace VideoSharingService.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetVideos()
+        public async Task<IActionResult> GetVideos([FromQuery] RequestParams requestParams)
         {
             try
             {
-                var videos = await _unitOfWork.Videos.GetAll();
+                var videos = await _unitOfWork.Videos.GetPagedList(requestParams);
                 var result = _mapper.Map<IList<VideoDTO>>(videos);
                 return Ok(result);
             }
