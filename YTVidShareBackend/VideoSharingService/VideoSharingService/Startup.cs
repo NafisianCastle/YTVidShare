@@ -13,6 +13,7 @@ using VideoSharingService.Configurations;
 using VideoSharingService.Data;
 using VideoSharingService.Data.IRepository;
 using VideoSharingService.Data.Repository;
+using VideoSharingService.Services;
 
 namespace VideoSharingService
 {
@@ -77,6 +78,7 @@ namespace VideoSharingService
             services.AddAutoMapper(typeof(MapperInitializer));
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthManager,AuthManager>();
 
             services.AddSwaggerGen(c =>
             {

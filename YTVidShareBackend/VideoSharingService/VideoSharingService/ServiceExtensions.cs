@@ -21,7 +21,7 @@ namespace VideoSharingService
 
         public static void ConfigureJwt(this IServiceCollection service, IConfiguration configuration)
         {
-            var jwtSettings = configuration.GetSection("jwt");
+            var jwtSettings = configuration.GetSection("Jwt");
             var key = Environment.GetEnvironmentVariable("KEY");
 
             service.AddAuthentication(o =>

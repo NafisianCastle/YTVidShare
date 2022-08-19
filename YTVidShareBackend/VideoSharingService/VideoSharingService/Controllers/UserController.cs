@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using VideoSharingService.Data.DTOs;
 using VideoSharingService.Data.IRepository;
 using VideoSharingService.Data.Models;
+using VideoSharingService.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,13 +23,14 @@ namespace VideoSharingService.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly IMapper _mapper;
         private readonly UserManager<ApiUser> _userManager;
+        private readonly IAuthManager _authManager;
 
-        public UserController(IUnitOfWork unitOfWork, ILogger<UserController> logger, IMapper mapper,UserManager<ApiUser> userManager)
+        public UserController(IUnitOfWork unitOfWork, ILogger<UserController> logger, IMapper mapper, UserManager<ApiUser> userManager, IAuthManager authManager)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
             _mapper = mapper;
-           
+            _authManager = authManager;
             _userManager = userManager;
         }
 
@@ -63,7 +65,7 @@ namespace VideoSharingService.Controllers
                 var result = _mapper.Map<UserDTO>(user);
                 return Ok(result);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"Something went wrong in the {nameof(GetUser)}");
                 return StatusCode(500, "Internal server error. Please try again later");
@@ -86,13 +88,13 @@ namespace VideoSharingService.Controllers
             try
             {
                 var user = _mapper.Map<ApiUser>(userDTO);
-                var result = await _userManager.CreateAsync(user,userDTO.Password);
+                var result = await _userManager.CreateAsync(user, userDTO.Password);
 
                 if (!result.Succeeded)
                 {
                     foreach (var error in result.Errors)
                     {
-                        ModelState.AddModelError(error.Code,error.Description);
+                        ModelState.AddModelError(error.Code, error.Description);
                     }
                     return BadRequest(ModelState);
                 }
@@ -106,30 +108,33 @@ namespace VideoSharingService.Controllers
             }
         }
 
-        //[HttpPost]
-        //[Route("login")]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //public async Task<IActionResult> Login([FromBody] LoginDTO userDTO)
-        //{
-        //    _logger.LogInformation($"Registration attempt for {userDTO.Email}");
-        //    if (!ModelState.IsValid)
-        //    {
-        //        _logger.LogError($"Invalid post attempt {nameof(Login)}");
-        //        return BadRequest(ModelState);
-        //    }
-        //    try
-        //    {
+        [HttpPost]
+        [Route("login")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Login([FromBody] LoginDTO userDTO)
+        {
+            _logger.LogInformation($"Login attempt for {userDTO.Email}");
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid post attempt {nameof(Login)}");
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (!await _authManager.ValidateUser(userDTO))
+                {
+                    return Unauthorized();
+                }
 
-               
-        //        return Accepted();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, $"Something went wrong in the {nameof(Login)}");
-        //        return StatusCode(500, "Internal server error. Please try again later");
-        //    }
-        //}
+                return Accepted(new {Token = await _authManager.CreateToken()});
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(Login)}");
+                return StatusCode(500, "Internal server error. Please try again later");
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace VideoSharingService.Data.DTOs
     public class LoginDTO
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Email is required")]
-        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         
