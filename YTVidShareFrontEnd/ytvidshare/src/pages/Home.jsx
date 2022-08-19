@@ -1,4 +1,5 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Card from '../components/Card'
 const Container = styled.div`
@@ -8,6 +9,13 @@ const Container = styled.div`
 `
 
 const Home = () => {
+    useEffect(() => {
+      axios.get('/video').then((response) => {
+        console.log(response.data);
+      })
+    
+    }, [])
+    
     return (
         <Container>
             <Card />

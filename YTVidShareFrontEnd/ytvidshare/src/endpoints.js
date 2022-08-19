@@ -1,2 +1,3 @@
 const baseUrl = process.env.API_URL;
-export const  videUrl = `${baseUrl}/video`;
+const videoUrl = `${baseUrl}/video`;
+export default  videoUrl;

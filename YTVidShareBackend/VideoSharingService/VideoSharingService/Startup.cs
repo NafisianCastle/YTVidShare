@@ -72,7 +72,13 @@ namespace VideoSharingService
 
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                //c.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+                var frontendUrl = Configuration.GetValue<string>("frontend_url");
+                c.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins(frontendUrl).AllowAnyMethod().AllowAnyHeader();
+                });
             });
 
             services.AddAutoMapper(typeof(MapperInitializer));
@@ -109,14 +115,15 @@ namespace VideoSharingService
 
             app.UseHttpsRedirection();
 
-            app.UseCors("AllowAll");
+            //app.UseCors("AllowAll");
+            app.UseCors();
 
             app.UseResponseCaching();
             app.UseHttpCacheHeaders();
             app.UseIpRateLimiting();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
