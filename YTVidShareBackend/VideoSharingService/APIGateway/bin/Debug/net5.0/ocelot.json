@@ -1,0 +1,28 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/video",
+      "DownstreamScheme": "https",
+      "DownsteamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44345"
+        }
+      ],
+      "UpsteamPathTemplate": "/video",
+      "UpsteamHttpMethod": [ "GET", "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/video/{id}",
+      "DownstreamScheme": "https",
+      "DownsteamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44345"
+        }
+      ],
+      "UpsteamPathTemplate": "/video/{id}",
+      "UpsteamHttpMethod": [ "GET" ]
+    }
+  ]
+}
