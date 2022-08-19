@@ -10,7 +10,7 @@ namespace VideoSharingService.Data.DTOs
         public int LikeCount { get; set; }
         public int DisLikeCount { get; set; }
         public IList<ReactionDTO> Reactions { get; set; }
+        public string UserName { get; set; }
 
-        public UserDTO User { get; set; }
     }
 }

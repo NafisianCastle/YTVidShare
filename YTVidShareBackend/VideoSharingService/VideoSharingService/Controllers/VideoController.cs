@@ -56,9 +56,10 @@ namespace VideoSharingService.Controllers
         {
             try
             {
-                var video = await _unitOfWork.Videos.Get(x => x.VideoID == id, new List<string> { "Reactions" });
+                var video = await _unitOfWork.Videos.Get(x => x.VideoID == id,new List<string> { "Reactions" });
+                var username = _unitOfWork.Users.Get(x=>x.Email== video.UserEmail).Result.UserName;
                 var result = _mapper.Map<VideoDTO>(video);
-                
+                result.UserName = username;
                 return Ok(result);
             }
             catch (Exception ex)

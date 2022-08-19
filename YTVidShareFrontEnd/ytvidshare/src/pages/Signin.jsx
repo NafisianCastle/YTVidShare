@@ -60,7 +60,9 @@ const SignIn = () => {
     e.preventDefault();
    
   };
-
+  const handleRegister = async (e) => {
+    e.preventDefault();
+  }
 
 
   return (
@@ -71,10 +73,12 @@ const SignIn = () => {
         <Input
           name="username"
           placeholder="username"
+          value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <Input
           name="password"
+          value={password}
           type="password"
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
@@ -85,15 +89,17 @@ const SignIn = () => {
         <Title>or</Title>
         <Input
           placeholder="username"
+          value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <Input placeholder="email" type="email" onChange={(e) => setEmail(e.target.value)} />
+        <Input placeholder="email" value={email} type="email" onChange={(e) => setEmail(e.target.value)} />
         <Input
           type="password"
           placeholder="password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button>Sign up</Button>
+        <Button onClick={handleRegister}>Sign up</Button>
       </Wrapper>
      
     </Container>
