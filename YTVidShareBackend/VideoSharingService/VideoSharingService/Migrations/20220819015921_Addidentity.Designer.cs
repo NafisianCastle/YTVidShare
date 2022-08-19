@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VideoSharingService.Data;
 
 namespace VideoSharingService.Migrations
 {
     [DbContext(typeof(VidShareDbContext))]
-    partial class VidShareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220819015921_Addidentity")]
+    partial class Addidentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,6 +250,9 @@ namespace VideoSharingService.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApiUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -257,15 +262,12 @@ namespace VideoSharingService.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
 
                     b.HasKey("VideoID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("ApiUserId");
 
                     b.ToTable("Videos");
                 });
@@ -334,11 +336,9 @@ namespace VideoSharingService.Migrations
 
             modelBuilder.Entity("VideoSharingService.Data.Models.Video", b =>
                 {
-                    b.HasOne("VideoSharingService.Data.Models.ApiUser", "User")
+                    b.HasOne("VideoSharingService.Data.Models.ApiUser", null)
                         .WithMany("Videos")
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("User");
+                        .HasForeignKey("ApiUserId");
                 });
 
             modelBuilder.Entity("VideoSharingService.Data.Models.ApiUser", b =>

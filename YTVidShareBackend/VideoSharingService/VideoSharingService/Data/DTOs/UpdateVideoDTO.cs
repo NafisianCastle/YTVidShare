@@ -11,6 +11,6 @@ namespace VideoSharingService.Data.DTOs
         public int LikeCount { get; set; }
         public int DisLikeCount { get; set; }
         [Required]
-        public int UserID { get; set; }
+        public string UserID { get; set; }
     }
 }

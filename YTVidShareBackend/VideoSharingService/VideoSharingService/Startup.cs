@@ -33,7 +33,8 @@ namespace VideoSharingService
                 options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"));
 
             });
-
+            services.AddAuthentication();
+            services.ConfigureIdentity();
             services.AddMemoryCache();
 
             services.Configure<IpRateLimitOptions>(opt =>

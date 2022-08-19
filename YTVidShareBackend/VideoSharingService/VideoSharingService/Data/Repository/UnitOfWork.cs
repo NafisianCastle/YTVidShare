@@ -9,7 +9,7 @@ namespace VideoSharingService.Data.Repository
     {
         private readonly VidShareDbContext _context;
 
-        private IGenericRepository<User> _users;
+        private IGenericRepository<ApiUser> _users;
         private IGenericRepository<Video> _videos;
         private IGenericRepository<Reaction> _reactions;
 
@@ -19,7 +19,7 @@ namespace VideoSharingService.Data.Repository
 
         }
 
-        public IGenericRepository<User> Users => _users ??= new GenericRepository<User>(_context);
+        public IGenericRepository<ApiUser> Users => _users ??= new GenericRepository<ApiUser>(_context);
 
         public IGenericRepository<Video> Videos => _videos ??= new GenericRepository<Video>(_context);
 

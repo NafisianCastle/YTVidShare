@@ -41,7 +41,7 @@ namespace VideoSharingService.Controllers
                 var singleReaction = new ReactorDTO();
                 foreach (var item in result)
                 {
-                    var username =  _unitOfWork.Users.Get(x=>x.UserID==item.ReactedUserID).Result.Username;
+                    var username =  _unitOfWork.Users.Get(x=>x.Id==item.ReactedUserID).Result.UserName;
                     singleReaction.ReactedUserName = username;
                     singleReaction.ReactedUserID= item.ReactedUserID;
                     singleReaction.Value = item.Value;
@@ -51,7 +51,7 @@ namespace VideoSharingService.Controllers
 
                 var videoDetails = new VideoDetails();
                 videoDetails.ReactorDTOs = reactionList;
-                videoDetails.UploaderUserName = _unitOfWork.Users.Get(x=>x.UserID==uploaderID).Result.Username;
+                videoDetails.UploaderUserName = _unitOfWork.Users.Get(x=>x.Id==uploaderID).Result.UserName;
 
                 return Ok(videoDetails);
             }
