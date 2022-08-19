@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VideoSharingService.Data.DTOs;
 using VideoSharingService.Data.IRepository;
@@ -38,11 +40,11 @@ namespace VideoSharingService.Controllers
                 var reactions = await _unitOfWork.Reactions.GetAll(x=>x.VideoID == id);
                 var result = _mapper.Map<IList<ReactionDTO>>(reactions);
                 var reactionList = new List<ReactorDTO>();
-                var singleReaction = new ReactorDTO();
+                
                 foreach (var item in result)
                 {
-                    var username =  _unitOfWork.Users.Get(x=>x.Id==item.ReactedUserID).Result.UserName;
-                    singleReaction.ReactedUserName = username;
+                    var singleReaction = new ReactorDTO();
+                    singleReaction.ReactedUserName = _unitOfWork.Users.Get(x => x.Id == item.ReactedUserID).Result.UserName;
                     singleReaction.ReactedUserID= item.ReactedUserID;
                     singleReaction.Value = item.Value;
                     reactionList.Add(singleReaction);
@@ -63,6 +65,7 @@ namespace VideoSharingService.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -75,8 +78,12 @@ namespace VideoSharingService.Controllers
             }
             try
             {
-                var videoExist =  await _unitOfWork.Reactions.Get(x => x.VideoID == reactionDTO.VideoID);
-                var exist = await _unitOfWork.Reactions.Get(x => x.ReactedUserID == reactionDTO.ReactedUserID);
+                var videoExist =  await _unitOfWork.Reactions.GetAll(x => x.VideoID == reactionDTO.VideoID);
+
+                var exist = (from video in videoExist 
+                             where video.ReactedUserID == reactionDTO.ReactedUserID 
+                             select video).FirstOrDefault();
+
                 if (exist != null && videoExist!=null)
                 {
 
