@@ -8,8 +8,8 @@ namespace VideoSharingService.Configurations
     {
         public MapperInitializer()
         {
-            CreateMap<User, UserDTO>().ReverseMap();
-            CreateMap<User, CreateUserDTO>().ReverseMap();
+            CreateMap<ApiUser, UserDTO>().ReverseMap();
+            CreateMap<ApiUser, CreateUserDTO>().ReverseMap();
             CreateMap<Video, VideoDTO>().ReverseMap();
             CreateMap<Video, CreateVideoDTO>().ReverseMap();
             CreateMap<Reaction, ReactionDTO>().ReverseMap();

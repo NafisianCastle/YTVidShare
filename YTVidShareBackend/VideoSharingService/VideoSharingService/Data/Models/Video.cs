@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,8 +13,8 @@ namespace VideoSharingService.Data.Models
         public DateTime UploadDate { get; set; }
         public int ViewCount { get; set; }
         [ForeignKey(nameof(User))]
-        public int UserID { get; set; }
-        public virtual User User { get; set; }
+        public string UserID { get; set; }
+        public virtual ApiUser User { get; set; }
 
         public virtual IList<Reaction> Reactions { get; set; }
     }

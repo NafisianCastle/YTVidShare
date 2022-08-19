@@ -11,12 +11,7 @@ namespace VideoSharingService.Data.DTOs
         [Required(AllowEmptyStrings = false, ErrorMessage = "Title is required")]
         public string Title { get; set; }
 
-        [DataType(DataType.Date)]
         [Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime UploadDate { get; set; }
-
-        [Required]
-        public int UserID { get; set; }
+        public string UserID { get; set; }
     }
 }

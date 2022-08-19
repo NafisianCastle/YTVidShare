@@ -13,7 +13,7 @@ namespace VideoSharingService.Data.Models
         public int VideoID { get; set; }
         public virtual Video Video { get; set; }
 
-        public int ReactedUserID { get; set; }
+        public string ReactedUserID { get; set; }
 
     }
 }

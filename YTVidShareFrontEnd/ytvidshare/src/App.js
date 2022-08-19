@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import styled from "styled-components";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import SignIn from "./pages/Signin";
+import Video from "./pages/Video";
+const Container = styled.div`
+  display: flex;
+`;
+
+const Main = styled.div`
+  flex: 7;
+  background-color: ${({ theme }) => theme.bg};
+`;
+const Wrapper = styled.div`
+  padding: 22px 96px;
+`;
 
 function App() {
+  // const { currentUser } = useSelector((state) => state.user);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Router>
+        <Main>
+          <Navbar />
+          <Wrapper>
+            <Routes>
+              <Route path="/">
+                <Route index element={<Home />} />
+                <Route path="video">
+                  <Route path=":id" element={<Video />} />
+                </Route>
+                <Route
+                    path="signin"
+                    element={ <SignIn />}
+                  />
+              </Route>
+            </Routes>
+          </Wrapper>
+        </Main>
+
+      </Router>
+    </Container>
+
   );
 }
 
