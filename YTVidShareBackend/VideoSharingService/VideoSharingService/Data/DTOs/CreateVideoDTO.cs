@@ -11,7 +11,9 @@ namespace VideoSharingService.Data.DTOs
         [Required(AllowEmptyStrings = false, ErrorMessage = "Title is required")]
         public string Title { get; set; }
 
+        public DateTime UploadDate { get; set; }
+
         [Required]
-        public string UserID { get; set; }
+        public string UserEmail { get; set; }
     }
 }

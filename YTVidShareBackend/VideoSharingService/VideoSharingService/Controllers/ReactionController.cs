@@ -49,7 +49,7 @@ namespace VideoSharingService.Controllers
                     singleReaction.Value = item.Value;
                     reactionList.Add(singleReaction);
                 }
-                var uploaderID = _unitOfWork.Videos.Get(x=>x.VideoID==id).Result.UserID;
+                var uploaderID = _unitOfWork.Videos.Get(x=>x.VideoID==id).Result.UserEmail;
 
                 var videoDetails = new VideoDetails();
                 videoDetails.ReactorDTOs = reactionList;

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VideoSharingService.Data;
 
 namespace VideoSharingService.Migrations
 {
     [DbContext(typeof(VidShareDbContext))]
-    partial class VidShareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220819105720_ChangedSchema")]
+    partial class ChangedSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,11 +259,11 @@ namespace VideoSharingService.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserEmail")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("userEmail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("VideoID");
 

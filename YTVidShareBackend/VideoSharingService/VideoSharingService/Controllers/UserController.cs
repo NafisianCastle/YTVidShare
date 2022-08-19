@@ -54,7 +54,7 @@ namespace VideoSharingService.Controllers
             }
         }
 
-        [HttpGet("{id:int}", Name = "CreateUser")]
+        [HttpGet("{id:Guid}", Name = "GetUser")]
         [Authorize]
         [ResponseCache(CacheProfileName = "120SecondsDuration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -63,7 +63,7 @@ namespace VideoSharingService.Controllers
         {
             try
             {
-                var user = await _unitOfWork.Users.Get(x => x.Id == id, new List<string> { "Videos" });
+                var user = await _unitOfWork.Users.Get(x => x.Id == id);
                 var result = _mapper.Map<UserDTO>(user);
                 return Ok(result);
             }

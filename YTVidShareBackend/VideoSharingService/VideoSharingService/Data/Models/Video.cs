@@ -12,9 +12,8 @@ namespace VideoSharingService.Data.Models
         public string Title { get; set; }
         public DateTime UploadDate { get; set; }
         public int ViewCount { get; set; }
-        [ForeignKey(nameof(User))]
-        public string UserID { get; set; }
-        public virtual ApiUser User { get; set; }
+
+        public string UserEmail {get; set; }
 
         public virtual IList<Reaction> Reactions { get; set; }
     }

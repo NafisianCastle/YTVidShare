@@ -47,7 +47,7 @@ namespace VideoSharingService
                     {
                         Endpoint ="*",
                         Limit=1,
-                        Period="5s"
+                        Period="1s"
                     }
                 };
             });

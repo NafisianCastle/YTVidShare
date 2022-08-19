@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Card from '../components/Card'
 const Container = styled.div`
@@ -8,16 +8,22 @@ const Container = styled.div`
     flex-wrap:wrap;
 `
 
-const Home = () => {
+const Home = ({type}) => {
+    const [videos, setVideos] = useState([]);
     useEffect(() => {
-      axios.get('/video').then((response) => {
-        console.log(response.data);
-      })
-    
-    }, [])
+        const fetchVideos = async () => {
+          const res = await axios.get(`/videos/${type}`);
+          console.log(res.data);
+          setVideos(res.data);
+        };
+        fetchVideos();
+      }, [type]);
     
     return (
         <Container>
+        {videos.map((video) => (
+        <Card key={video._id} video={video}/>
+      ))}
             <Card />
             <Card />
             <Card />

@@ -70,7 +70,7 @@ namespace VideoSharingService.Controllers
 
 
         [HttpPost]
-        [Authorize]
+       
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
