@@ -31,7 +31,7 @@ namespace VideoSharingService.Controllers
         }
 
         [HttpGet]
-        [HttpCacheValidation(MustRevalidate =true)]
+        [HttpCacheValidation(MustRevalidate = true)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetVideos([FromQuery] RequestParams requestParams)
@@ -40,6 +40,7 @@ namespace VideoSharingService.Controllers
             {
                 var videos = await _unitOfWork.Videos.GetPagedList(requestParams);
                 var result = _mapper.Map<IList<VideoDTO>>(videos);
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -56,8 +57,8 @@ namespace VideoSharingService.Controllers
         {
             try
             {
-                var video = await _unitOfWork.Videos.Get(x => x.VideoID == id,new List<string> { "Reactions" });
-                var username = _unitOfWork.Users.Get(x=>x.Email== video.UserEmail).Result.UserName;
+                var video = await _unitOfWork.Videos.Get(x => x.VideoID == id, new List<string> { "Reactions" });
+                var username = _unitOfWork.Users.Get(x => x.Email == video.UserEmail).Result.UserName;
                 var result = _mapper.Map<VideoDTO>(video);
                 result.UserName = username;
                 return Ok(result);
@@ -71,7 +72,6 @@ namespace VideoSharingService.Controllers
 
 
         [HttpPost]
-       
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -85,6 +85,8 @@ namespace VideoSharingService.Controllers
             try
             {
                 var video = _mapper.Map<Video>(videoDTO);
+                var videoUrlId = video.Url.Split('=')[1].Trim();
+                video.ThumbnailUrl = "http://img.youtube.com/vi/" + videoUrlId + "/0.jpg";
                 await _unitOfWork.Videos.Insert(video);
                 await _unitOfWork.Save();
 
@@ -127,6 +129,40 @@ namespace VideoSharingService.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Something went wrong in the {nameof(UpdateVideo)}");
+                return StatusCode(500, "Internal server error. Please try again later");
+            }
+        }
+
+
+        [HttpDelete("{id:int}")]
+      
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteVideo(int id)
+        {
+            if ( id < 1)
+            {
+                _logger.LogError($"Invalid DELETE attempt {nameof(DeleteVideo)}");
+                return BadRequest();
+            }
+            try
+            {
+                var video = await _unitOfWork.Videos.Get(x => x.VideoID == id);
+                if (video == null)
+                {
+                    _logger.LogError($"Invalid DELETE attempt {nameof(DeleteVideo)}");
+                    return BadRequest("Submitted data is invalid");
+
+                }
+                await _unitOfWork.Videos.Delete(id);
+                await _unitOfWork.Save();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(DeleteVideo)}");
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }

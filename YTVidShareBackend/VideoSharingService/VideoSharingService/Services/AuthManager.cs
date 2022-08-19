@@ -14,7 +14,7 @@ namespace VideoSharingService.Services
 {
     public class AuthManager : IAuthManager
     {
-        private readonly UserManager<ApiUser> _userManager ;
+        private readonly UserManager<ApiUser> _userManager;
         private readonly IConfiguration _configuration;
         private ApiUser _user;
 
@@ -65,7 +65,7 @@ namespace VideoSharingService.Services
 
         public async Task<bool> ValidateUser(LoginDTO userDTO)
         {
-            _user = await  _userManager.FindByEmailAsync(userDTO.Email);
+            _user = await _userManager.FindByEmailAsync(userDTO.Email);
             return (_user != null && await _userManager.CheckPasswordAsync(_user, userDTO.Password));
         }
     }

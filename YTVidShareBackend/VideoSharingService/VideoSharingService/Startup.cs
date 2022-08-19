@@ -40,7 +40,7 @@ namespace VideoSharingService
             services.AddMemoryCache();
 
             services.Configure<IpRateLimitOptions>(opt =>
-            {   
+            {
                 opt.GeneralRules = new List<RateLimitRule>
                 {
                     new RateLimitRule
@@ -84,7 +84,7 @@ namespace VideoSharingService
             services.AddAutoMapper(typeof(MapperInitializer));
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IAuthManager,AuthManager>();
+            services.AddScoped<IAuthManager, AuthManager>();
 
             services.AddSwaggerGen(c =>
             {

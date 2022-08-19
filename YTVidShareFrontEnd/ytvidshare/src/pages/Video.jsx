@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
-import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import Comments from "../components/Comments";
-import Card from "../components/Card";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
-import { dislike, fetchSuccess, like } from "../redux/videoSlice";
+import styled from "styled-components";
 import { format } from "timeago.js";
-import { subscription } from "../redux/userSlice";
-import Recommendation from "../components/Recommendation";
+import { fetchSuccess } from "../redux/videoSlice";
 
 const Container = styled.div`
   display: flex;
@@ -62,54 +57,6 @@ const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
-const Channel = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ChannelInfo = styled.div`
-  display: flex;
-  gap: 20px;
-`;
-
-const Image = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-`;
-
-const ChannelDetail = styled.div`
-  display: flex;
-  flex-direction: column;
-  color: ${({ theme }) => theme.text};
-`;
-
-const ChannelName = styled.span`
-  font-weight: 500;
-`;
-
-const ChannelCounter = styled.span`
-  margin-top: 5px;
-  margin-bottom: 20px;
-  color: ${({ theme }) => theme.textSoft};
-  font-size: 12px;
-`;
-
-const Description = styled.p`
-  font-size: 14px;
-`;
-
-const Subscribe = styled.button`
-  background-color: #cc1a00;
-  font-weight: 500;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  height: max-content;
-  padding: 10px 20px;
-  cursor: pointer;
-`;
-
 const VideoFrame = styled.video`
   max-height: 720px;
   width: 100%;
@@ -123,16 +70,13 @@ const Video = () => {
 
   const path = useLocation().pathname.split("/")[2];
 
-  const [channel, setChannel] = useState({});
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const videoRes = await axios.get(`/videos/find/${path}`);
-        const channelRes = await axios.get(
-          `/users/find/${videoRes.data.userId}`
-        );
-        setChannel(channelRes.data);
+       
         dispatch(fetchSuccess(videoRes.data));
       } catch (err) {}
     };
@@ -140,20 +84,15 @@ const Video = () => {
   }, [path, dispatch]);
 
   const handleLike = async () => {
-    await axios.put(`/users/like/${currentVideo._id}`);
-    dispatch(like(currentUser._id));
+    // await axios.put(`/users/like/${currentVideo.videoID}`);
+    // dispatch(like(currentUser._id));
   };
   const handleDislike = async () => {
-    await axios.put(`/users/dislike/${currentVideo._id}`);
-    dispatch(dislike(currentUser._id));
+    // await axios.put(`/users/dislike/${currentVideo.videoID}`);
+    // dispatch(dislike(currentUser._id));
   };
 
-  const handleSub = async () => {
-    currentUser.subscribedUsers.includes(channel._id)
-      ? await axios.put(`/users/unsub/${channel._id}`)
-      : await axios.put(`/users/sub/${channel._id}`);
-    dispatch(subscription(channel._id));
-  };
+
 
   //TODO: DELETE VIDEO FUNCTIONALITY
 

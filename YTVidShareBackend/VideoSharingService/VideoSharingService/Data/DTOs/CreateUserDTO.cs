@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace VideoSharingService.Data.DTOs
 {
-    public class CreateUserDTO:LoginDTO
+    public class CreateUserDTO : LoginDTO
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Username is required")]
         [StringLength(maximumLength: 20, ErrorMessage = "Username is too long")]

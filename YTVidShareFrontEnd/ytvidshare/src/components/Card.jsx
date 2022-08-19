@@ -25,13 +25,7 @@ const Details = styled.div`
   flex: 1;
 `;
 
-const ChannelImage = styled.img`
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #999;
-  display: ${(props) => props.type === "sm" && "none"};
-`;
+
 
 const Texts = styled.div``;
 
@@ -41,11 +35,6 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.text};
 `;
 
-const ChannelName = styled.h2`
-  font-size: 14px;
-  color: ${({ theme }) => theme.textSoft};
-  margin: 9px 0px;
-`;
 
 const Info = styled.div`
   font-size: 14px;
@@ -60,8 +49,8 @@ const Card = ({ video  }) => {
   return (
     <Link to={`/video/${video.videoID}`} style={{ textDecoration: "none" }}>
       <Container >
-        <Image
-          src={video.url}
+      <Image
+          src={video.thumbnailUrl}
         />
         <Details >
           <Texts>

@@ -130,7 +130,7 @@ namespace VideoSharingService.Controllers
                     return Unauthorized();
                 }
 
-                return Accepted(new {Token = await _authManager.CreateToken()});
+                return Accepted(new { Token = await _authManager.CreateToken() });
             }
             catch (Exception ex)
             {
@@ -138,5 +138,6 @@ namespace VideoSharingService.Controllers
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }
+
     }
 }

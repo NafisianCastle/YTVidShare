@@ -30,30 +30,30 @@ namespace VideoSharingService.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(CacheProfileName ="120SecondsDuration")]
+        [ResponseCache(CacheProfileName = "120SecondsDuration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetReactions(int id)
         {
             try
             {
-                var reactions = await _unitOfWork.Reactions.GetAll(x=>x.VideoID == id);
+                var reactions = await _unitOfWork.Reactions.GetAll(x => x.VideoID == id);
                 var result = _mapper.Map<IList<ReactionDTO>>(reactions);
                 var reactionList = new List<ReactorDTO>();
-                
+
                 foreach (var item in result)
                 {
                     var singleReaction = new ReactorDTO();
                     singleReaction.ReactedUserName = _unitOfWork.Users.Get(x => x.Id == item.ReactedUserID).Result.UserName;
-                    singleReaction.ReactedUserID= item.ReactedUserID;
+                    singleReaction.ReactedUserID = item.ReactedUserID;
                     singleReaction.Value = item.Value;
                     reactionList.Add(singleReaction);
                 }
-                var uploaderID = _unitOfWork.Videos.Get(x=>x.VideoID==id).Result.UserEmail;
+                var uploaderID = _unitOfWork.Videos.Get(x => x.VideoID == id).Result.UserEmail;
 
                 var videoDetails = new VideoDetails();
                 videoDetails.ReactorDTOs = reactionList;
-                videoDetails.UploaderUserName = _unitOfWork.Users.Get(x=>x.Id==uploaderID).Result.UserName;
+                videoDetails.UploaderUserName = _unitOfWork.Users.Get(x => x.Id == uploaderID).Result.UserName;
 
                 return Ok(videoDetails);
             }
@@ -78,20 +78,20 @@ namespace VideoSharingService.Controllers
             }
             try
             {
-                var videoExist =  await _unitOfWork.Reactions.GetAll(x => x.VideoID == reactionDTO.VideoID);
+                var videoExist = await _unitOfWork.Reactions.GetAll(x => x.VideoID == reactionDTO.VideoID);
 
-                var exist = (from video in videoExist 
-                             where video.ReactedUserID == reactionDTO.ReactedUserID 
+                var exist = (from video in videoExist
+                             where video.ReactedUserID == reactionDTO.ReactedUserID
                              select video).FirstOrDefault();
 
-                if (exist != null && videoExist!=null)
+                if (exist != null && videoExist != null)
                 {
 
                     _mapper.Map(reactionDTO, exist);
                     _unitOfWork.Reactions.Update(exist);
                     await _unitOfWork.Save();
                 }
-                else 
+                else
                 {
                     var reaction = _mapper.Map<Reaction>(reactionDTO);
                     await _unitOfWork.Reactions.Insert(reaction);

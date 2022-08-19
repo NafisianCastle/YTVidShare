@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,16 +21,6 @@ namespace VideoSharingService.Data.Repository
             _db = _context.Set<T>();
         }
 
-        public async Task Delete(int id)
-        {
-            var entity = await _db.FindAsync(id);
-            _db.Remove(entity);
-        }
-
-        public void DeleteRange(IEnumerable<T> entities)
-        {
-            _db.RemoveRange(entities);
-        }
 
         public async Task<T> Get(Expression<Func<T, bool>> expression, List<string> includes = null)
         {
@@ -86,22 +75,27 @@ namespace VideoSharingService.Data.Repository
             return await query.AsNoTracking().ToPagedListAsync(requestParams.PageNumber, requestParams.PageSize);
         }
 
-        
+
 
         public async Task Insert(T entity)
         {
             await _db.AddAsync(entity);
         }
 
-        public async Task InsertRange(IEnumerable<T> entities)
-        {
-            await _db.AddRangeAsync(entities);
-        }
+       
 
         public void Update(T entity)
         {
             _db.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
         }
+
+        
+        public async Task Delete(int id)
+        {
+            var entity = await _db.FindAsync(id);
+            _db.Remove(entity);
+        }
+
     }
 }

@@ -55,21 +55,23 @@ const Logo = styled.div`
 `;
 
 const Navbar = () => {
-    return (
-        <Container>
-            <Wrapper>
-                <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-                    <Logo>
-                        <Img src={OnnoRokom} />
-                    </Logo>
-                </Link>
-                <Button>
-                    <AccountCircleOutlinedIcon />
-                    SIGN IN
-                </Button>
-            </Wrapper>
-        </Container>
-    )
+  return (
+    <Container>
+      <Wrapper>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Logo>
+            <Img src={OnnoRokom} />
+          </Logo>
+        </Link>
+        <Link to="signin" style={{ textDecoration: "none" }}>
+          <Button>
+            <AccountCircleOutlinedIcon />
+            SIGN IN
+          </Button>
+        </Link>
+      </Wrapper>
+    </Container>
+  )
 }
 
 export default Navbar
