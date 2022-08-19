@@ -35,6 +35,7 @@ namespace VideoSharingService
             });
             services.AddAuthentication();
             services.ConfigureIdentity();
+            services.ConfigureJwt(Configuration);
             services.AddMemoryCache();
 
             services.Configure<IpRateLimitOptions>(opt =>
