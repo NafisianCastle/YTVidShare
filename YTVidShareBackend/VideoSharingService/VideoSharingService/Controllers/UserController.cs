@@ -125,12 +125,7 @@ namespace VideoSharingService.Controllers
             }
             try
             {
-                if (!await _authManager.ValidateUser(userDTO))
-                {
-                    return Unauthorized();
-                }
-
-                return Accepted(new { Token = await _authManager.CreateToken() });
+                return !await _authManager.ValidateUser(userDTO) ? Unauthorized() : Accepted(new { Token = await _authManager.CreateToken() });
             }
             catch (Exception ex)
             {

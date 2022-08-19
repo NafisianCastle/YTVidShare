@@ -72,6 +72,7 @@ namespace VideoSharingService.Controllers
 
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -120,7 +121,7 @@ namespace VideoSharingService.Controllers
                     return BadRequest(ModelState);
 
                 }
-                _mapper.Map(videoDTO, video);
+                 _mapper.Map(videoDTO, video);
                 _unitOfWork.Videos.Update(video);
                 await _unitOfWork.Save();
 
@@ -134,37 +135,37 @@ namespace VideoSharingService.Controllers
         }
 
 
-        [HttpDelete("{id:int}")]
-      
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteVideo(int id)
-        {
-            if ( id < 1)
-            {
-                _logger.LogError($"Invalid DELETE attempt {nameof(DeleteVideo)}");
-                return BadRequest();
-            }
-            try
-            {
-                var video = await _unitOfWork.Videos.Get(x => x.VideoID == id);
-                if (video == null)
-                {
-                    _logger.LogError($"Invalid DELETE attempt {nameof(DeleteVideo)}");
-                    return BadRequest("Submitted data is invalid");
+        //[HttpDelete("{id:int}")]
 
-                }
-                await _unitOfWork.Videos.Delete(id);
-                await _unitOfWork.Save();
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IActionResult> DeleteVideo(int id)
+        //{
+        //    if ( id < 1)
+        //    {
+        //        _logger.LogError($"Invalid DELETE attempt {nameof(DeleteVideo)}");
+        //        return BadRequest();
+        //    }
+        //    try
+        //    {
+        //        var video = await _unitOfWork.Videos.Get(x => x.VideoID == id);
+        //        if (video == null)
+        //        {
+        //            _logger.LogError($"Invalid DELETE attempt {nameof(DeleteVideo)}");
+        //            return BadRequest("Submitted data is invalid");
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Something went wrong in the {nameof(DeleteVideo)}");
-                return StatusCode(500, "Internal server error. Please try again later");
-            }
-        }
+        //        }
+        //        await _unitOfWork.Videos.Delete(id);
+        //        await _unitOfWork.Save();
+
+        //        return NoContent();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Something went wrong in the {nameof(DeleteVideo)}");
+        //        return StatusCode(500, "Internal server error. Please try again later");
+        //    }
+        //}
     }
 }

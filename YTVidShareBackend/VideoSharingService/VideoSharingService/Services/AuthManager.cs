@@ -66,7 +66,7 @@ namespace VideoSharingService.Services
         public async Task<bool> ValidateUser(LoginDTO userDTO)
         {
             _user = await _userManager.FindByEmailAsync(userDTO.Email);
-            return (_user != null && await _userManager.CheckPasswordAsync(_user, userDTO.Password));
+            return _user != null && await _userManager.CheckPasswordAsync(_user, userDTO.Password);
         }
     }
 }

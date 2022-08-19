@@ -1,15 +1,10 @@
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import axios from "axios";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
-import { format } from "timeago.js";
-import { fetchSuccess } from "../redux/videoSlice";
+import Card from "../components/Card";
 
 const Container = styled.div`
   display: flex;
@@ -57,72 +52,44 @@ const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
-const VideoFrame = styled.video`
-  max-height: 720px;
-  width: 100%;
-  object-fit: cover;
+const Recommendation = styled.div`
+  flex: 2;
 `;
 
+
 const Video = () => {
-  const { currentUser } = useSelector((state) => state.user);
-  const { currentVideo } = useSelector((state) => state.video);
-  const dispatch = useDispatch();
-
-  const path = useLocation().pathname.split("/")[2];
-
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const videoRes = await axios.get(`/videos/find/${path}`);
-       
-        dispatch(fetchSuccess(videoRes.data));
-      } catch (err) {}
-    };
-    fetchData();
-  }, [path, dispatch]);
-
-  const handleLike = async () => {
-    // await axios.put(`/users/like/${currentVideo.videoID}`);
-    // dispatch(like(currentUser._id));
-  };
-  const handleDislike = async () => {
-    // await axios.put(`/users/dislike/${currentVideo.videoID}`);
-    // dispatch(dislike(currentUser._id));
-  };
-
-
-
-  //TODO: DELETE VIDEO FUNCTIONALITY
-
+  const [videos, setVideos] = useState([]);
+    useEffect(() => {
+        const fetchVideos = async () => {
+          const res = await axios.get('https://localhost:44345/api/video');
+          console.log(res.data);
+          setVideos(res.data);
+        };
+        fetchVideos();
+      }, []);
   return (
     <Container>
       <Content>
         <VideoWrapper>
-          <VideoFrame src={currentVideo.url} controls /> 
+          <iframe
+            width="100%"
+            height="720"
+            src="https://www.youtube.com/embed/tjfA8HYUYFM"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
         </VideoWrapper>
-        <Title>{currentVideo.title}</Title>
+        <Title>OnnoRokom Pathshala_Physics_Circuit_Part-02</Title>
         <Details>
-          <Info>
-            {currentVideo.viewCount} views • {format(currentVideo.createdAt)}
-          </Info>
+          <Info>7,948,154 views • Jun 22, 2022</Info>
           <Buttons>
-            <Button onClick={handleLike}>
-              {currentVideo.likes?.includes(currentUser?._id) ? (
-                <ThumbUpIcon />
-              ) : (
-                <ThumbUpOutlinedIcon />
-              )}{" "}
-              {currentVideo.likes?.length}
+            <Button>
+              <ThumbUpOutlinedIcon /> 123
             </Button>
-            <Button onClick={handleDislike}>
-              {currentVideo.dislikes?.includes(currentUser?._id) ? (
-                <ThumbDownIcon />
-              ) : (
-                <ThumbDownOffAltOutlinedIcon />
-              )}{" "}
-              Dislike
+            <Button>
+              <ThumbDownOffAltOutlinedIcon /> 34
             </Button>
             <Button>
               <ReplyOutlinedIcon /> Details
@@ -130,11 +97,35 @@ const Video = () => {
           </Buttons>
         </Details>
         <Hr />
-        
-        <Hr />
+     
         
       </Content>
-    
+      <Recommendation>
+      {videos.map((video) => (
+        <Card key={video.videoID} video={video}/>
+      ))}
+
+      {videos.map((video) => (
+        <Card key={video.videoID} video={video}/>
+      ))}
+
+      {videos.map((video) => (
+        <Card key={video.videoID} video={video}/>
+      ))}
+        {/* <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/> */}
+      </Recommendation>
     </Container>
   );
 };

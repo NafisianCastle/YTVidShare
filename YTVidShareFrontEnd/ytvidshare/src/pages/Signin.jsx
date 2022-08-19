@@ -1,8 +1,6 @@
 import { React, useState } from "react";
-
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
+import axios from "../api/axios";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -55,10 +53,10 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
  
-  const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
-   
+    const res = await axios.post("https://localhost:44345/api/User/login",{email, password});
+    console.log(res);
   };
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -71,16 +69,12 @@ const SignIn = () => {
         <Title>Sign in</Title>
         <SubTitle>to continue to OnnoRokom VidShare</SubTitle>
         <Input
-          name="username"
-          placeholder="username"
-          value={name}
+          placeholder="Email"
           onChange={(e) => setName(e.target.value)}
         />
         <Input
-          name="password"
-          value={password}
           type="password"
-          placeholder="password"
+          placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button onClick={handleLogin}>Sign in</Button>
@@ -89,14 +83,14 @@ const SignIn = () => {
         <Title>or</Title>
         <Input
           placeholder="username"
-          value={name}
+          
           onChange={(e) => setName(e.target.value)}
         />
-        <Input placeholder="email" value={email} type="email" onChange={(e) => setEmail(e.target.value)} />
+        <Input placeholder="email"  type="email" onChange={(e) => setEmail(e.target.value)} />
         <Input
           type="password"
           placeholder="password"
-          value={password}
+          
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button onClick={handleRegister}>Sign up</Button>
