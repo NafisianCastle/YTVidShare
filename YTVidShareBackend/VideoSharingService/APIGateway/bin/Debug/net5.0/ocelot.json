@@ -1,28 +1,34 @@
 {
-  "Routes": [
+  "ReRoutes": [
     {
-      "DownstreamPathTemplate": "/api/video",
+      "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "https",
-      "DownsteamHostAndPorts": [
+      "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "44345"
+          "Port": 44345
         }
       ],
-      "UpsteamPathTemplate": "/video",
-      "UpsteamHttpMethod": [ "GET", "POST" ]
+      "UpstreamPathTemplate": "/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "DownstreamPathTemplate": "/api/video/{id}",
+      "DownstreamPathTemplate": "/{everything}/{id}",
       "DownstreamScheme": "https",
-      "DownsteamHostAndPorts": [
+      "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "44345"
+          "Port": 44345
         }
       ],
-      "UpsteamPathTemplate": "/video/{id}",
-      "UpsteamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/api/{everything}/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
-  ]
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5001"
+  },
+  "DangerousAcceptAnyServerCertificateValidator": true
+
 }
