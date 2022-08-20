@@ -9,24 +9,24 @@ const Container = styled.div`
 `
 
 const Home = () => {
-    const [videos, setVideos] = useState([]);
-    useEffect(() => {
-        const fetchVideos = async () => {
-          const res = await axios.get('https://localhost:44345/api/video');
-          console.log(res.data);
-          setVideos(res.data);
-        };
-        fetchVideos();
-      }, []);
-    
-    return (
-        <Container>
-        {videos.map((video) => (
-        <Card key={video.videoID} video={video}/>
+  const [videos, setVideos] = useState([]);
+  useEffect(() => {
+    const fetchVideos = async () => {
+      const res = await axios.get('https://localhost:44345/api/video');
+      console.log(res.data);
+      setVideos(res.data);
+    };
+    fetchVideos();
+  }, []);
+
+  return (
+    <Container>
+      {videos.map((video) => (
+        <Card key={video.videoID} video={video} />
       ))}
-            
-        </Container>
-    )
+
+    </Container>
+  )
 }
 
 export default Home

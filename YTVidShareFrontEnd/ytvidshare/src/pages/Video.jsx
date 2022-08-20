@@ -55,11 +55,7 @@ const Recommendation = styled.div`
   flex: 2;
 `;
 
-const VideoFrame = styled.video`
-  max-height: 720px;
-  width: 100%;
-  object-fit: cover;
-`;  
+
 const Video = () => {
   const [videos, setVideos] = useState([]);
 
@@ -76,11 +72,20 @@ const Video = () => {
   return (
     <Container>
     
+        <>
           <Content>
-          <VideoWrapper>
-          <VideoFrame src={videos.videoUrl} controls />
-        </VideoWrapper>
-            <Title>{videos.Title}</Title>
+            <VideoWrapper>
+              <iframe
+                width="100%"
+                height="720"
+                src="https://www.youtube.com/embed/BvJKrDrLQz0"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </VideoWrapper>
+            <Title>OnnoRokom Pathshala_Physics_Circuit_Part-02</Title>
             <Details>
               <Info>7,948,154 views • Jun 22, 2022</Info>
               <Buttons>
@@ -101,9 +106,9 @@ const Video = () => {
           </Content>
           <Recommendation>
            
-
           </Recommendation>
-       
+        </>
+
     </Container>
   );
 };
