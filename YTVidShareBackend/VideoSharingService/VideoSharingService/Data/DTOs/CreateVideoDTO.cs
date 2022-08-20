@@ -8,6 +8,7 @@ namespace VideoSharingService.Data.DTOs
         [Required(AllowEmptyStrings = false, ErrorMessage = "URL is required")]
         public string Url { get; set; }
 
+        public string ThumbnailUrl { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Title is required")]
         public string Title { get; set; }
 

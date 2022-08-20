@@ -61,6 +61,8 @@ namespace VideoSharingService.Controllers
                 var username = _unitOfWork.Users.Get(x => x.Email == video.UserEmail).Result.UserName;
                 var result = _mapper.Map<VideoDTO>(video);
                 result.UserName = username;
+                result.LikeCount = _unitOfWork.Reactions.GetAll(x=>x.VideoID==id && x.Value==true).Result.Count;
+                result.DisLikeCount = _unitOfWork.Reactions.GetAll(x=>x.VideoID==id && x.Value==false).Result.Count;
                 return Ok(result);
             }
             catch (Exception ex)
@@ -72,7 +74,6 @@ namespace VideoSharingService.Controllers
 
 
         [HttpPost]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -85,9 +86,11 @@ namespace VideoSharingService.Controllers
             }
             try
             {
+                
+                var videoUrlId = videoDTO.Url.Split('=')[1].Trim();
+                videoDTO.ThumbnailUrl = "http://img.youtube.com/vi/" + videoUrlId + "/0.jpg";
+                videoDTO.Url = "https://www.youtube.com/embed/"+videoUrlId;
                 var video = _mapper.Map<Video>(videoDTO);
-                var videoUrlId = video.Url.Split('=')[1].Trim();
-                video.ThumbnailUrl = "http://img.youtube.com/vi/" + videoUrlId + "/0.jpg";
                 await _unitOfWork.Videos.Insert(video);
                 await _unitOfWork.Save();
 
