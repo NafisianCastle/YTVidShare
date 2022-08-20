@@ -65,6 +65,7 @@ namespace VideoSharingService.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

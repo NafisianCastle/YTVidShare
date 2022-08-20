@@ -18,16 +18,7 @@ namespace VideoSharingService.Data
         {
             base.OnModelCreating(builder);
 
-            //builder.Entity<User>().HasData(
-            //   new User
-            //   {
-            //       UserID = 1,
-            //       Username = "Admin",
-            //       Email = "admin@vidshare.com",
-            //       Password = "admin@1234",
-            //       CreatedAt = System.DateTime.Now
-            //   }
-            //);
+            
         }
     }
 }

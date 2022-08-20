@@ -40,7 +40,7 @@ namespace VideoSharingService.Controllers
             {
                 var videos = await _unitOfWork.Videos.GetPagedList(requestParams);
                 var result = _mapper.Map<IList<VideoDTO>>(videos);
-
+                _unitOfWork.Dispose();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -74,6 +74,8 @@ namespace VideoSharingService.Controllers
 
 
         [HttpPost]
+        [Authorize]
+
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -127,7 +129,6 @@ namespace VideoSharingService.Controllers
                  _mapper.Map(videoDTO, video);
                 _unitOfWork.Videos.Update(video);
                 await _unitOfWork.Save();
-
                 return NoContent();
             }
             catch (Exception ex)
@@ -136,7 +137,6 @@ namespace VideoSharingService.Controllers
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }
-
 
         //[HttpDelete("{id:int}")]
 
@@ -170,5 +170,6 @@ namespace VideoSharingService.Controllers
         //        return StatusCode(500, "Internal server error. Please try again later");
         //    }
         //}
+        
     }
 }
