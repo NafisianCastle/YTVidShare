@@ -117,7 +117,8 @@ namespace VideoSharingService.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login([FromBody] LoginDTO userDTO)
         {
-            _logger.LogInformation($"Login attempt for {userDTO.Email}");
+            var sanitizedEmail = userDTO.Email?.Replace("\r", "").Replace("\n", "");
+            _logger.LogInformation($"Login attempt for {sanitizedEmail}");
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid post attempt {nameof(Login)}");
