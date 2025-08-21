@@ -20,6 +20,20 @@ namespace VideoSharingService.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        // Mask the email address for logging purposes to avoid exposing private info
+        private string MaskEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email) || !email.Contains("@"))
+                return "unknown";
+            
+            var parts = email.Split('@');
+            var prefix = parts[0];
+            var domain = parts[1];
+            var maskedPrefix = prefix.Length <= 2
+                ? prefix.Substring(0, 1) + "***"
+                : prefix.Substring(0, 1) + new string('*', prefix.Length - 2) + prefix.Substring(prefix.Length - 1, 1);
+            return $"{maskedPrefix}@{domain}";
+        }
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<UserController> _logger;
         private readonly IMapper _mapper;
@@ -118,7 +132,7 @@ namespace VideoSharingService.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDTO userDTO)
         {
             var sanitizedEmail = userDTO.Email?.Replace("\r", "").Replace("\n", "");
-            _logger.LogInformation($"Login attempt for {sanitizedEmail}");
+            _logger.LogInformation($"Login attempt for {MaskEmail(sanitizedEmail)}");
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid post attempt {nameof(Login)}");
