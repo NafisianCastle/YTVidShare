@@ -148,7 +148,7 @@ namespace VideoSharingService.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDTO userDTO)
         {
             var sanitizedEmail = userDTO.Email?.Replace("\r", "").Replace("\n", "");
-            _logger.LogInformation($"Login attempt for email hash {HashEmail(sanitizedEmail)}");
+            _logger.LogInformation("Login attempt received.");
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid post attempt {nameof(Login)}");
