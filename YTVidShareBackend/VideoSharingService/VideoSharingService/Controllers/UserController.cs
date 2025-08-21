@@ -111,7 +111,7 @@ namespace VideoSharingService.Controllers
         public async Task<IActionResult> Register([FromBody] CreateUserDTO userDTO)
         {
             var sanitizedEmail = userDTO.Email?.Replace("\r", "").Replace("\n", "");
-            _logger.LogInformation($"Registration attempt for {sanitizedEmail}");
+            _logger.LogInformation("Registration attempt received.");
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid post attempt {nameof(Register)}");
