@@ -95,7 +95,8 @@ namespace VideoSharingService.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] CreateUserDTO userDTO)
         {
-            _logger.LogInformation($"Registration attempt for {userDTO.Email}");
+            var sanitizedEmail = userDTO.Email?.Replace("\r", "").Replace("\n", "");
+            _logger.LogInformation($"Registration attempt for {sanitizedEmail}");
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid post attempt {nameof(Register)}");
