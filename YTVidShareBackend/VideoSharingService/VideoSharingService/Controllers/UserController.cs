@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using VideoSharingService.Data.DTOs;
@@ -33,6 +35,19 @@ namespace VideoSharingService.Controllers
                 ? prefix.Substring(0, 1) + "***"
                 : prefix.Substring(0, 1) + new string('*', prefix.Length - 2) + prefix.Substring(prefix.Length - 1, 1);
             return $"{maskedPrefix}@{domain}";
+        }
+
+        // Hash email address using SHA256 for logging (not reversible)
+        private string HashEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return "unknown";
+            
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(email));
+                return Convert.ToBase64String(bytes);
+            }
         }
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<UserController> _logger;
@@ -133,7 +148,7 @@ namespace VideoSharingService.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDTO userDTO)
         {
             var sanitizedEmail = userDTO.Email?.Replace("\r", "").Replace("\n", "");
-            _logger.LogInformation($"Login attempt for {MaskEmail(sanitizedEmail)}");
+            _logger.LogInformation($"Login attempt for email hash {HashEmail(sanitizedEmail)}");
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid post attempt {nameof(Login)}");
